@@ -12,7 +12,7 @@ code .      //使用vscode打开该文件夹
   - main.rs(主函数源代码)
     ```rust
     fn main() {
-    println!("Hello, world!");  //打印宏（带换行符）
+        println!("Hello, world!");  //打印宏（带换行符）
     }
     ```
 + target
