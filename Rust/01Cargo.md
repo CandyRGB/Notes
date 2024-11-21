@@ -1,30 +1,29 @@
 # <center>Cargo</center>
 ## 创建项目
 打开终端，输入`cd "目录路径"`转到想要创建项目的文件夹下，再输入`cargo new 项目名称`即可创建rush项目。
-rush项目命名方式为下划线命名法，下面新建项目：
-```c
+rush项目命名方式为下划线命名法，下面新建并打开项目：
+```shell
 cargo new hello_cargo
-cd h*       //通配符查询以h开头的文件并转入
-code .      //使用vscode打开该文件夹
+cd h*
+code .
 ```
-生成的项目中有以下文件和文件夹：
-+ src
-  - main.rs(主函数源代码)
-    ```rust
-    fn main() {
-        println!("Hello, world!");  //打印宏（带换行符）
-    }
-    ```
-+ target
-+ Cargo.toml(Cargo的配置格式)
-  ```toml
-  [package]
-  name = "hello_world"
-  version = "0.1.0"
-  edition = "2021"
-
-  [dependencies]
-  ```
+生成的项目目录结构以及文件中的内容如下：
+```
+hello_cargo
+├── src
+│   └── main.rs(主函数源代码)
+│       fn main() {
+│           println!("Hello, world!");  //打印宏（带换行符）
+│       }
+├── target
+└── Cargo.toml(Cargo的配置格式)
+    [package]
+    name = "hello_world"
+    version = "0.1.0"
+    edition = "2021"
+ 
+    [dependencies]
+```
 ## 运行项目
 1. `carge build`仅生成可执行文件
 2. `carge run`编译并运行
