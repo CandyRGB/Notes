@@ -1,6 +1,6 @@
 ## 解析 HTTP 请求
 
-## workspace
+### workspace
 创建项目：
 ```shell
 cargo new hs
@@ -15,7 +15,7 @@ code .
 members = ["http", "httpserver"]
 ```
 
-## 需要实现的数据结构
+### 需要实现的数据结构
 根据请求报文结构，我们需要创建以下数据结构：
 |数据结构名称|数据类型|描述|
 |:-:|:-:|:-:|
@@ -24,17 +24,17 @@ members = ["http", "httpserver"]
 |Path|&str|指定所允许的 HTTP 路径|
 |Version|enum|指定所允许的 HTTP 版本|
 
-## 需要实现的 Trait
+### 需要实现的 Trait
 |Trait|用途|
 |:-|:-|
 |`From<&str>`|把`&str`转化为`HttpRequest`中对应字段的类型|
 |`Debug`|打印调试信息|
 |`PartialEq`|解析内容与测试内容的比较|
 
-## 实现
+### 实现
 在 hs/http/src 下新建 httprequest\.rs ，作为 HTTP 请求模块。
 
-### Method
+#### Method
 编写`Method`并编写对应测试：
 文件路径：hs/http/src/httprequest\.rs
 ```rust
@@ -73,7 +73,7 @@ cargo test -p http
 ```
 测试通过。
 
-### Version
+#### Version
 以同样的形式编写`Version`并在测试模块加入对应测试：
 文件路径：hs/http/src/httprequest\.rs
 ```rust
@@ -106,13 +106,13 @@ cargo test -p http
 ```
 测试通过。
 
-### Path
+#### Path
 文件路径：hs/http/src/httprequest\.rs
 ```rust
 type Path = String;
 ```
 
-### HttpRequest
+#### HttpRequest
 以同样的形式编写`HttpRequest`：
 文件路径：hs/http/src/httprequest\.rs
 ```rust
