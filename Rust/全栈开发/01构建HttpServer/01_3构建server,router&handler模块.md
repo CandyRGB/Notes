@@ -195,7 +195,7 @@ serde_json = "1.0.72"
 ```
 文件路径：hs/httpserver/src/handler\.rs
 ```rust
-use serde::{Deserialize, Serialize};    // 解析与反编码 JSON 文件
+use serde::{Deserialize, Serialize};    // 序列化和与反序列化 JSON 文件
 use std::collections::HashMap;
 
 pub struct WebServiceHandler;
