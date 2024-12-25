@@ -75,14 +75,19 @@ async fn main() {
 
 ### 发布课程
 #### 添加路由
-把`localhost:3000/courses/` 作为发布课程的路径，使用`post`方法：
+把`localhost:3000/courses` 作为发布课程的路径，使用`post`方法：
 文件路径：hello_axum/src/bin/teacher-service\.rs
 ```rust
+    let course_router = Router::new()
+        .route("/", post(new_course));
+
     let app = Router::new()
         .route("/health", get(health_check_handler))
-        .route("/courses/", post(new_course))
+        .nest("/courses", course_router)
         .layer(Extension(app_state));
 ```
+在这里，我们希望之后可以在`course`下添加子路径，因此，使用了`nest`来嵌套路由。
+
 #### 编写 handler
 文件路径：hello_axum/src/bin/handlers\.rs
 ```rust
@@ -117,7 +122,7 @@ pub async fn new_course(
 }
 ```
 此 handler 执行以下操作：
-1. 使用[提取器](https://docs.rs/axum/0.7.9/axum/extract/index.html#the-order-of-extractors)获取程序 State 和请求 Body。
+1. 使用 **[提取器](https://docs.rs/axum/0.7.9/axum/extract/index.html#the-order-of-extractors)** 获取程序 State 和请求 Body。
 2. 通过计算老师的现有课程数量并递增 1 来生成新的课程 id
 3. 创建新的课程实例并添加到 AppState
 
@@ -167,13 +172,17 @@ mod test {
             courses: Mutex::new(vec![]),
         });
         // 路由器
+        let course_router = Router::new()
+            .route("/", post(new_course))
+
         let app = Router::new()
-            .route("/courses/", post(new_course))
+            .route("/health", get(health_check_handler))
+            .nest("/courses", course_router)
             .layer(Extension(app_state));
         // 模拟服务器
         let server = TestServer::new(app).unwrap();
         // 响应
-        let response = server.post("/courses/")
+        let response = server.post("/courses")
             .json(&course).await;
 
         assert_eq!(response.status_code(), StatusCode::OK);
@@ -201,7 +210,7 @@ cargo run
 然后新打开一个`shell`当作客户端，输入以下命令对服务器发送 POST 请求：
 ```shell
 PS hello_axum > curl `
->> -Uri "http://localhost:3000/courses/" `
+>> -Uri "http://localhost:3000/courses" `
 >> -Headers @{"Content-Type"="application/json"} `
 >> -Body '{"teacher_id":1,"name":"First course"}' `
 >> -Method Post
